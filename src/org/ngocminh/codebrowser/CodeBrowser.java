@@ -38,8 +38,6 @@ import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.TreePath;
 import javax.swing.tree.TreeSelectionModel;
 
-import jsyntaxpane.DefaultSyntaxKit;
-
 import org.ngocminh.codebrowser.Runner.State;
 
 @SuppressWarnings("unchecked")
@@ -51,11 +49,18 @@ public class CodeBrowser extends JFrame {
 
 	private String codeBase;
 
-	static {
-		DefaultSyntaxKit.initKit();
+	public CodeBrowser() {
+		try {
+			Class.forName("jsyntaxpane.DefaultSyntaxKit");
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		}
+		initComponents();
+		setSize(750, 480);
+		showInfo();
 	}
 
-	public CodeBrowser() {
+	private void initComponents() {
 		setLocationByPlatform(true);
 		setTitle(APP_NAME);
 
@@ -170,9 +175,6 @@ public class CodeBrowser extends JFrame {
 		splWrapper.setRightComponent(pnlRight);
 
 		getContentPane().add(splWrapper, BorderLayout.CENTER);
-
-		setSize(750, 480);
-		showInfo();
 	}
 
 	private void updateTitle() {
@@ -426,8 +428,8 @@ public class CodeBrowser extends JFrame {
 	private Icon icoClose = loadIcon("close.png");
 	private Icon icoInfo = loadIcon("info.png");
 
-	private String msgAbout = "<p>Code Browser version 0.0.1 " +
-			"(<a href=\"mailto:ngocminh.oss@gmail.com\">" +
-			"ngocminh.oss@gmail.com</a>)</p>";
+	private String msgAbout = "<p><a href=\"" +
+			"http://code.google.com/p/codebrowser/\">" +
+			"Code Browser</a> version 0.0.1</p>";
 
 }
