@@ -17,7 +17,7 @@ public class Console extends JTextArea implements DocumentListener {
 	public Console(ConsoleDocument doc) {
 		super(doc);
 		this.doc = doc;
-		setFont(new Font("Monospaced", Font.PLAIN, 13));
+		setFont(new Font("Monospaced", Font.PLAIN, 13)); //$NON-NLS-1$
 		doc.addDocumentListener(this);
 	}
 

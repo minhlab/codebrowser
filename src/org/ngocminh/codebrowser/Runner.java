@@ -3,6 +3,8 @@ package org.ngocminh.codebrowser;
 import java.io.BufferedReader;
 import java.io.PrintWriter;
 
+import org.ngocminh.codebrowser.i18n.Messages;
+
 public abstract class Runner implements Runnable {
 
 	protected ConsoleDocument doc = new ConsoleDocument();
@@ -40,10 +42,10 @@ public abstract class Runner implements Runnable {
 					doc.clear();
 					Runner.this.run();
 				} catch (Exception ex) {
-					out.println("Có lỗi: " + ex.getMessage());
+					out.println(Messages.getString("Runner.0") + ex.getMessage()); //$NON-NLS-1$
 					ex.printStackTrace(err);
 				} finally {
-					out.println("<kết thúc>");
+					out.println(Messages.getString("Runner.1")); //$NON-NLS-1$
 					state = State.READY;
 				}
 			}

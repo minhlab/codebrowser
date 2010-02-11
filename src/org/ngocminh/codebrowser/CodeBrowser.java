@@ -39,19 +39,20 @@ import javax.swing.tree.TreePath;
 import javax.swing.tree.TreeSelectionModel;
 
 import org.ngocminh.codebrowser.Runner.State;
+import org.ngocminh.codebrowser.i18n.Messages;
 
 @SuppressWarnings("unchecked")
 public class CodeBrowser extends JFrame {
 
 	private static final long serialVersionUID = -8980540462550104503L;
 
-	private static final String APP_NAME = "Code Browser v0.0.1";
+	private static final String APP_NAME = "Code Browser v0.0.1"; //$NON-NLS-1$
 
 	private String codeBase;
 
 	public CodeBrowser() {
 		try {
-			Class.forName("jsyntaxpane.DefaultSyntaxKit");
+			Class.forName("jsyntaxpane.DefaultSyntaxKit"); //$NON-NLS-1$
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 		}
@@ -99,12 +100,11 @@ public class CodeBrowser extends JFrame {
 
 		splWrapper.setLeftComponent(pnlLeft);
 
-		txtAbout.setName("Thông tin");
 		txtAbout.setEditable(false);
-		txtAbout.setContentType("text/html");
+		txtAbout.setContentType("text/html"); //$NON-NLS-1$
 		txtAbout.setText(msgAbout);
 		txtAbout.addHyperlinkListener(new HyperlinkListener() {
-			
+
 			@Override
 			public void hyperlinkUpdate(HyperlinkEvent e) {
 				if (e.getEventType() == HyperlinkEvent.EventType.ACTIVATED) {
@@ -118,7 +118,7 @@ public class CodeBrowser extends JFrame {
 
 		pnlToolbar.setLayout(new FlowLayout(FlowLayout.LEFT));
 
-		btnStart.setText("Khởi động");
+		btnStart.setText(Messages.getString("CodeBrowser.4")); //$NON-NLS-1$
 		btnStart.setIcon(icoStart2);
 		btnStart.addActionListener(new ActionListener() {
 
@@ -129,7 +129,7 @@ public class CodeBrowser extends JFrame {
 		});
 		pnlToolbar.add(btnStart);
 
-		btnTerminate.setText("Kết thúc");
+		btnTerminate.setText(Messages.getString("CodeBrowser.5")); //$NON-NLS-1$
 		btnTerminate.setIcon(icoTerminate);
 		btnTerminate.addActionListener(new ActionListener() {
 
@@ -140,7 +140,7 @@ public class CodeBrowser extends JFrame {
 		});
 		pnlToolbar.add(btnTerminate);
 
-		btnClose.setText("Đóng");
+		btnClose.setText(Messages.getString("CodeBrowser.6")); //$NON-NLS-1$
 		btnClose.setIcon(icoClose);
 		btnClose.addActionListener(new ActionListener() {
 
@@ -151,7 +151,7 @@ public class CodeBrowser extends JFrame {
 		});
 		pnlToolbar.add(btnClose);
 
-		btnInfo.setText("Thông tin");
+		btnInfo.setText(Messages.getString("CodeBrowser.7")); //$NON-NLS-1$
 		btnInfo.setIcon(icoInfo);
 		btnInfo.addActionListener(new ActionListener() {
 
@@ -181,7 +181,7 @@ public class CodeBrowser extends JFrame {
 		if (tabMain.getSelectedComponent() == null) {
 			setTitle(APP_NAME);
 		} else {
-			setTitle(tabMain.getTitleAt(tabMain.getSelectedIndex()) + " - "
+			setTitle(tabMain.getTitleAt(tabMain.getSelectedIndex()) + " - " //$NON-NLS-1$
 					+ APP_NAME);
 		}
 	}
@@ -210,7 +210,7 @@ public class CodeBrowser extends JFrame {
 			}
 		} else if (obj instanceof String) {
 			String fileName = (String) obj;
-			String filePath = "/" + codeBase + "/" + fileName;
+			String filePath = "/" + codeBase + "/" + fileName; //$NON-NLS-1$ //$NON-NLS-2$
 			if (tabMain.indexOfTab(fileName) < 0) {
 				JEditorPane txtSource = new JEditorPane();
 				txtSource.setEditable(false);
@@ -218,16 +218,17 @@ public class CodeBrowser extends JFrame {
 				try {
 					String content = readContent(CodeBrowser.class
 							.getResourceAsStream(filePath));
-					if (fileName.endsWith(".java")) {
-						txtSource.setContentType("text/java");
+					if (fileName.endsWith(".java")) { //$NON-NLS-1$
+						txtSource.setContentType("text/java"); //$NON-NLS-1$
 					} else {
-						txtSource.setContentType("text/plain");
+						txtSource.setContentType("text/plain"); //$NON-NLS-1$
 					}
 					txtSource.setText(content);
 				} catch (Exception e) {
-					txtSource.setContentType("text/plain");
-					txtSource.setText("Có lỗi: " + e.getMessage() + "\n"
-							+ Arrays.deepToString(e.getStackTrace()));
+					txtSource.setContentType("text/plain"); //$NON-NLS-1$
+					txtSource
+							.setText(Messages.getString("CodeBrowser.15") + e.getMessage() + "\n" //$NON-NLS-1$ //$NON-NLS-2$
+									+ Arrays.deepToString(e.getStackTrace()));
 				}
 				txtSource.setCaretPosition(0);
 				txtSource.requestFocusInWindow();
@@ -292,7 +293,7 @@ public class CodeBrowser extends JFrame {
 
 	private void showInfo() {
 		if (tabMain.indexOfComponent(scrAbout) < 0) {
-			tabMain.add("Thông tin", scrAbout);
+			tabMain.add(Messages.getString("CodeBrowser.17"), scrAbout); //$NON-NLS-1$
 		}
 		tabMain.setSelectedComponent(scrAbout);
 	}
@@ -323,7 +324,7 @@ public class CodeBrowser extends JFrame {
 			Arrays.sort(prog, 2, prog.length);
 			progNode.add(new DefaultMutableTreeNode(prog[1]));
 			progNode.add(new DefaultMutableTreeNode(clazz.getSimpleName()
-					+ ".java"));
+					+ ".java")); //$NON-NLS-1$
 			for (int i = 2; i < prog.length; i++) {
 				progNode.add(new DefaultMutableTreeNode(prog[i]));
 			}
@@ -333,7 +334,7 @@ public class CodeBrowser extends JFrame {
 		expandAll(trExplorer, true);
 
 		if (info != null) {
-			txtAbout.setText(msgAbout + "<br /><hr />" + info);
+			txtAbout.setText(msgAbout + "<br /><hr />" + info); //$NON-NLS-1$
 		}
 	}
 
@@ -387,7 +388,7 @@ public class CodeBrowser extends JFrame {
 				Object obj = ((DefaultMutableTreeNode) value).getUserObject();
 				if (obj instanceof Class) {
 					label.setIcon(icoStart);
-					label.setText("Khởi động");
+					label.setText(Messages.getString("CodeBrowser.20")); //$NON-NLS-1$
 				} else if ((obj instanceof String)) {
 					if (leaf) {
 						label.setIcon(icoSource);
@@ -405,7 +406,7 @@ public class CodeBrowser extends JFrame {
 
 	private Icon loadIcon(String fileName) {
 		return new ImageIcon(CodeBrowser.class
-				.getResource("images/" + fileName));
+				.getResource("images/" + fileName)); //$NON-NLS-1$
 	}
 
 	private JSplitPane splWrapper = new JSplitPane();
@@ -420,16 +421,16 @@ public class CodeBrowser extends JFrame {
 	private JButton btnClose = new JButton();
 	private JButton btnInfo = new JButton();
 	private JPanel pnlToolbar = new JPanel();
-	private Icon icoStart = loadIcon("start.png");
-	private Icon icoSource = loadIcon("source.png");
-	private Icon icoProgram = loadIcon("program.png");
-	private Icon icoStart2 = loadIcon("start2.png");
-	private Icon icoTerminate = loadIcon("terminate.png");
-	private Icon icoClose = loadIcon("close.png");
-	private Icon icoInfo = loadIcon("info.png");
+	private Icon icoStart = loadIcon("start.png"); //$NON-NLS-1$
+	private Icon icoSource = loadIcon("source.png"); //$NON-NLS-1$
+	private Icon icoProgram = loadIcon("program.png"); //$NON-NLS-1$
+	private Icon icoStart2 = loadIcon("start2.png"); //$NON-NLS-1$
+	private Icon icoTerminate = loadIcon("terminate.png"); //$NON-NLS-1$
+	private Icon icoClose = loadIcon("close.png"); //$NON-NLS-1$
+	private Icon icoInfo = loadIcon("info.png"); //$NON-NLS-1$
 
-	private String msgAbout = "<p><a href=\"" +
-			"http://code.google.com/p/codebrowser/\">" +
-			"Code Browser</a> version 0.0.1</p>";
+	private String msgAbout = "<p><a href=\"" + //$NON-NLS-1$
+			"http://code.google.com/p/codebrowser/\">" + //$NON-NLS-1$
+			"Code Browser</a> version 0.0.1</p>"; //$NON-NLS-1$
 
 }
