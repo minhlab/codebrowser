@@ -1,0 +1,11 @@
+<project name="codecode" default="dist" basedir=".">
+    <description>
+        Chép mã nguồn vào thư mục đích để chương trình đọc được.
+    </description>
+    <target name="dist">
+    	<mkdir dir="bin/src" />
+    	<sync todir="bin/src">
+    		<fileset dir="test/org/ngocminh/codebrowser/test" />
+    	</sync>
+    </target>
+</project>

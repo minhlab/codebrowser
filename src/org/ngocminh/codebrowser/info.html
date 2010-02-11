@@ -1,0 +1,68 @@
+<h3>Giới thiệu</h3>
+Thư viện hỗ trợ tổ chức bài tập (dưới dạng các chương trình nhỏ): đóng gói,
+trình bày, thực thi, xem mã nguồn chương trình một cách thuận tiện.
+<h3>Tác giả</h3>
+Lê Ngọc Minh (<a href="mailto:ngocminh.oss@gmail.com">ngocminh.oss@gmail.com</a>)
+<ul>
+<li>Đại học Bách Khoa Hà Nội</li>
+<li>Viện Công nghệ thông tin - truyền thông</li>
+<li>Lớp Khoa học máy tính - K52</li>
+</ul>
+<h3>Hướng dẫn sử dụng với Eclipse</h3>
+<ol>
+<li>Chép tệp codebrowse-x.y.z.jar vào thư mục lib trong dự án cần làm.</li>
+<li>Thêm vào build path bằng cách nhấn phải chuột vào tệp đó trong Package Explorer
+(có thể cần refresh) và chọn "Build path > Add to build path"</li>
+<li>Tạo đoạn lệnh sao chép mã nguồn <i>(tùy chọn)</i>: 
+Tạo tệp "copycode.xml" trong dự án với nội dung sau:<br />
+<pre>&lt;project name="codecode" default="dist" basedir="."&gt;
+    &lt;description&gt;
+        Chép mã nguồn vào thư mục đích để chương trình đọc được.
+    &lt;/description&gt;
+    &lt;target name="dist"&gt;
+    	&lt;mkdir dir="bin/src" /&gt;
+    	&lt;sync todir="bin/src"&gt;
+    		&lt;fileset dir="src/path/to/package" /&gt;
+    	&lt;/sync&gt;
+    &lt;/target&gt;
+&lt;/project&gt;</pre>
+Thay "path/to/package" bằng đường dẫn đến gói chứa mã nguồn chương trình.
+Nếu bạn chứa chương trình trong nhiều gói, có thể thêm các thẻ fileset khác
+miễn là không có tệp nào trùng tên. Khi chạy đoạn mã này (phải chuột &gt; 
+Run as &gt; Ant build), mã nguồn sẽ được chép vào thư mục bin/src để chương
+trình có thể đọc được.<br />
+Nếu không tạo tệp này, mỗi khi chạy chương trình bạn phải sao chép mã
+nguồn một cách thủ công.</li>
+<li>Tự động cập nhật mã nguồn <i>(tùy chọn)</i>: Phải chuột vào dự án,
+chọn Property. Trong hộp thoại chọn Builders, thêm Ant builder mới, chọn
+buildfile là tệp vừa tạo. Trong tab Targets, mục Auto build, đặt thành
+default target. Sau khi thiết lập xong chương trình khi thực hiện sẽ luôn
+đọc được mã nguồn mới nhất (nếu không phải chạy tệp copycode.xml bằng tay).
+</li>
+<li>Viết các chương trình nhỏ <code>extends</code> từ lớp <code>Runner</code> 
+và đặt mã thực thi vào hàm void <code>run()</code> thay vì hàm <code>main()
+</code>.</li>
+	<li>Tạo lớp khởi động có dạng như sau:<br />
+	<pre>public class Main {
+	
+	public static void main(String[] args) {
+		CodeBrowser.show("src", new Object[][] {
+			new Object[] { "Hello world!", HelloWorld.class }
+			new Object[] { "BKPaint", BKPaint.class, 
+						"RectangleTool.java", "CircleTool.java",  }	
+		});
+	}
+	
+}</pre> 
+Tham số "src" là thư mục chứa mã nguồn chương trình (sau khi dịch, bên trong
+thư mục bin). Tham số này cần phải khớp với thuộc tính "todir" trong tệp
+copycode.xml.<br />
+Tham số thứ 2 là mảng các chương trình con. 
+Mỗi mảng Object tương ứng với một chương trình tạo thành bởi 1 hoặc nhiều 
+tệp .java. Phần tử đầu tiên là tên để hiển thị trong danh sách, phần tử
+thứ 2 là lớp chính, tiếp sau là các file hỗ trợ (nếu có).<br />
+Có thể thêm vào đầu tiên một tham số chứa thông tin mô tả gói chương trình
+dưới dạng String hoặc InputStream.</li>
+<li>Dịch và chạy chương trình. Cũng có thể xuất ra dạng .jar, chương trình
+vẫn hoạt động bình thường.</li>
+</ol>
